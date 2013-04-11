@@ -32,27 +32,27 @@ for i in range(1,upper_bound):
     try:
         if i%2 == 0:
             #sum two things from odd_abundants
-            for j in range(0,len(odd_abundants)):
-                if odd_abundants[j] > i:
+            for j in odd_abundants:
+                if j > i:
                     #no more possible matches, assuming odd_abundants is ascending
                     break
-                if i-odd_abundants[j] in odd_abundants:
+                if i-j in odd_abundants:
                     raise Found
             #sum two things from even_abundants
-            for j in range(0,len(even_abundants)):
-                if even_abundants[j] > i:
+            for j in even_abundants:
+                if j > i:
                     #no more possible matches, assuming even_abundants is ascending
                     break
-                if i-even_abundants[j] in even_abundants:
+                if i-j in even_abundants:
                     raise Found
             
         else:
             #sum an even and an odd
-            for j in range(0,len(odd_abundants)):
-                if odd_abundants[j] > i:
+            for j in odd_abundants:
+                if j > i:
                     #no more possible matches, assuming odd_abundants is ascending
                     break
-                if i-odd_abundants[j] in even_abundants:
+                if i-j in even_abundants:
                     raise Found
         #if you reach this point, i COULD NOT be summed to
         sum += i
