@@ -1,6 +1,6 @@
-import time
+#!python
+import pelib
 
-start = time.time()
 last_fib = 0
 cur_fib = 1
 sum = 0
@@ -12,4 +12,5 @@ while 4000000 > cur_fib:
         sum += cur_fib
         
 print str(sum)
-print time.time() - start, "seconds"
+
+pelib.finish_timing()

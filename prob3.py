@@ -1,9 +1,9 @@
-import time
-import math
-start = time.time()
+#!python
+from math import sqrt
+import pelib
 
 target = 600851475143
-midpoint = int(math.sqrt(target))
+midpoint = int(sqrt(target))
 
 limitn = target+1
 primes_dict = dict()
@@ -21,4 +21,4 @@ for i in range(len(primes)-1,1,-1):
         print str(primes[i])
         break
 
-print time.time() - start, "seconds"
+pelib.finish_timing()
