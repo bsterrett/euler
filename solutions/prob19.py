@@ -30,4 +30,4 @@ while(year <= 2000):
     if month == 0 and day == 0:
         year += 1
         
-print "Sudays:", count
+print "Sundays:", count
