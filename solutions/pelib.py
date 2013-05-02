@@ -3,8 +3,6 @@ import time
 import copy
 import sys
 
-exec_start_time = time.time()
-
 class Found(Exception): pass
     
 def sum_of_proper_divisors(num):
