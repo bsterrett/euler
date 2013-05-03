@@ -2,6 +2,7 @@ import math
 import time
 import copy
 import sys
+import itertools
 
 class Found(Exception): pass
     
@@ -20,6 +21,13 @@ def sum_of_proper_divisors(num):
 def count_digits(num):
     # counts the number of digits in num
     return int(math.log(num,10)) + 1
+    
+def get_digit_permutations(number):
+    list = number_as_list(number)
+    numbers_list = []
+    for permutation in itertools.permutations(list):
+        numbers_list.append(tuple_as_number(permutation))
+    return remove_duplicates(numbers_list)
     
 def get_digit(num, pos):
     # returns the digit from a certain place in num

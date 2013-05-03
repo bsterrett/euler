@@ -9,10 +9,6 @@ if [[ $# -ne 1 ]]; then
     exit 1
 fi
 
-if [ ! -d "resources" ]; then
-    echo "Warning: resources directory not found."
-fi
-
 if [ ! -d "results" ]; then
     mkdir results
 fi
