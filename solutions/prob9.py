@@ -12,5 +12,5 @@ try:
 				if a + b + c == 1000:
 					raise Found
 except Found:
-	print "Product: ", int(a*b*c), "=", a, "*", b, "*", int(c)
+	print "Product: ", int(a*b*c)
 

@@ -16,5 +16,5 @@ try:
     
 except pelib.Found:
     ind = p_l.index(max(p_l))
-    print "Largest palindrome:", p_l[ind], "=", i_l[ind], "*", j_l[ind]
+    print "Largest palindrome:", p_l[ind]
     
