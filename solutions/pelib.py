@@ -73,10 +73,9 @@ def is_dec_str_palindrome(num):
     
     
 def number_as_list(number):
-    number = int(number)
     if number < 1:
         return [0]
-    number_as_list = []
+    number_as_list = list()
     while(number > 0):
         number_as_list.append(number%10)
         number /= 10

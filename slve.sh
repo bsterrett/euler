@@ -1,5 +1,9 @@
 #!/bin/bash
 
+root_dir=`pwd`
+results_dir="${root_dir}/results"
+solutions_dir="${root_dir}/solutions"
+
 if [[ $# -ne 1 ]]; then
     echo "Usage: slve.sh <problem number>"
     exit 1
@@ -10,7 +14,7 @@ if [ ! -d "resources" ]; then
 fi
 
 if [ ! -d "results" ]; then
-    echo "Warning: results directory not found. Results will not be saved."
+    mkdir results
 fi
 
 if [ ! -d "solutions" ]; then
@@ -30,15 +34,10 @@ if [[ "all" -ne "$1" && "$1" -gt 0 ]] ; then
         start_time=`date +%s`
         output=$(/bin/python $solution)
 		exit_status=$?
-		if [ $exit_status -ne 0 ] ; then
-			echo "caught that error:" $exit_status
-		else
-			echo "error slipped by:" $exit_status
-		fi
 		echo $output
         end_time=`date +%s` ; time_elapsed=`expr $end_time - $start_time`
         printf "Execution time was %d seconds\n\n" $time_elapsed
-        #exit 0
+        exit 0
     else
         printf "Error: solution %d was not found.\n" $number
         exit 1
@@ -54,19 +53,15 @@ elif [[ "all" -eq "$1" ]] ; then
             start_time=`date +%s`
 			output=$(/bin/python $solution)
 			exit_status=$?
-			if [ $exit_status -ne 0 ] ; then
-				echo "caught that error:" $exit_status
-			else
-				echo "error slipped by:" $exit_status
-			fi
+            echo $output
 			output_target_value=`echo "$output" | sed 's|.*:\s*\(-*\d*\b\)|\1|1'`			
 			end_time=`date +%s` ; time_elapsed=`expr $end_time - $start_time`
-			printf "%s,%d,%s\n" $number "$output_target_value" $time_elapsed >> ../results/results.raw
+			printf "%s,%d,%s\n" $number $output_target_value $time_elapsed >> "${results_dir}/results.raw"
 			if [[ $time_elapsed -gt 20 ]] ; then 
-				printf "%s,%d,%s\n" $number $output_target_value $time_elapsed >> ../results/slow_solutions.raw
+				printf "%s,%d,%s\n" $number $output_target_value $time_elapsed >> "${results_dir}/slow_solutions.raw"
 			fi
 			printf "Execution time was %d seconds\n\n" $time_elapsed
-			#exit 0
+			exit 0
         fi
     done
     exit 0
