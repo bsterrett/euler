@@ -57,7 +57,6 @@ elif [[ "all" -eq "$1" ]] ; then
 				printf "%s,%d,%s\n" $number $output_target_value $time_elapsed >> "${results_dir}/slow_solutions.raw"
 			fi
 			printf "Execution time was %d seconds\n\n" $time_elapsed
-			exit 0
         fi
     done
     exit 0
