@@ -2,6 +2,8 @@
 
 root_dir=`pwd`
 results_dir="${root_dir}/results"
+results_file="${results_dir}/results.raw"
+slow_solutions_file="${results_dir}/slow_solutions.raw"
 solutions_dir="${root_dir}/solutions"
 
 if [[ $# -ne 1 ]]; then
@@ -9,11 +11,11 @@ if [[ $# -ne 1 ]]; then
     exit 1
 fi
 
-if [ ! -d "results" ]; then
+if [ ! -d $results_dir ]; then
     mkdir results
 fi
 
-if [ ! -d "solutions" ]; then
+if [ ! -d $solutions_dir ]; then
 	echo "Error: solutions directory not found."
     exit 1
 else

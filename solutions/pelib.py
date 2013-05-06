@@ -120,9 +120,8 @@ def check_primality(number):
     return 1
     
 def check_primality_dyn(number, dict_upper_bound = 100):
-    if not hasattr(check_primality_dyn, "prime_dict"):
-        #the first time this is run, a dictionary of primes is created
-        dict_start_time = time.time()
+    def init_prime_dict():
+        check_primality_dyn.init_upper_bound = dict_upper_bound
         check_primality_dyn.prime_dict = dict()
         check_primality_dyn.prime_dict[0] = False
         check_primality_dyn.prime_dict[1] = False
@@ -131,6 +130,13 @@ def check_primality_dyn(number, dict_upper_bound = 100):
             factors = range(i,dict_upper_bound+1,i)
             for f in factors[1:]:
                 check_primality_dyn.prime_dict[f] = False
+    if not hasattr(check_primality_dyn, "prime_dict"):
+        #the first time this is run, a dictionary of primes is created
+        init_prime_dict()        
+    elif check_primality_dyn.init_upper_bound < dict_upper_bound:
+        #the dictionary was already initialized, but with a smaller bound
+        init_prime_dict()
+    
     try:
         #returns value stored in dictionary
         primality = check_primality_dyn.prime_dict[number]
