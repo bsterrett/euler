@@ -1,14 +1,6 @@
 #!python
 from pelib import number_as_list, get_digit_permutations
 import time
-
-start_time = time.time()
-
-upper_bound = 10000000
-chain_dict = dict()
-for i in range(1,upper_bound/10): chain_dict[i] = -1
-
-allocation_time = time.time() - start_time
     
 def get_square_of_digits(number):
     #returns the sum of the squared digits of a number
@@ -53,10 +45,20 @@ def number_chain(number):
             return
         list.append(new_number)
 
-for i in range(1,upper_bound):
-    number_chain(i)
-   
-print "Count: ", number_chain.count89
+if __name__ == '__main__':
+    start_time = time.time()
 
-print "Allocation time:", allocation_time, "  Run time:", time.time() - start_time
+    upper_bound = 10000000
+    chain_dict = dict()
+    for i in range(1,upper_bound/10): chain_dict[i] = -1
 
+    allocation_time = time.time() - start_time
+            
+    for i in range(1,upper_bound):
+        number_chain(i)
+       
+    print "Count: ", number_chain.count89
+
+    print "Allocation time:", allocation_time, "  Run time:", time.time() - start_time
+
+    exit(0)

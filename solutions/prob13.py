@@ -1,6 +1,8 @@
 #!python
-
 import math
+
+def get_first_twelve(num):
+	return long(num/math.pow(10,38))
 
 nums = [\
 37107287533902102798797998220837590246510135740250,
@@ -104,11 +106,12 @@ nums = [\
 20849603980134001723930671666823555245252804609722,
 53503534226472524250874054075591789781264330331690]
 
-def get_first_twelve(num):
-	return long(num/math.pow(10,38))
+if __name__ == '__main__':
+    sum = 0
+    for i in range(0,len(nums)):
+        sum += get_first_twelve(nums[i])
 
-sum = 0
-for i in range(0,len(nums)):
-	sum += get_first_twelve(nums[i])
-
-print "Sum: ", sum
+    print "Sum: ", sum
+    
+    exit(0)
+    

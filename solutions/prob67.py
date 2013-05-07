@@ -118,5 +118,7 @@ def backwards_sum():
         for j in range(0,len(triangle[i])-1):
             sum_triangle[i-1][j] += max(sum_triangle[i][j],sum_triangle[i][j+1])
     return sum_triangle[0][0]
-
-print "The best sum is: ", backwards_sum()   
+    
+if __name__ == '__main__':
+    print "The best sum is: ", backwards_sum()
+    exit(0)

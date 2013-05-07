@@ -4,11 +4,6 @@ from pelib import get_digit
 from pelib import tuple_as_number
 from itertools import permutations
 
-power = 5
-
-power_dict = dict()
-for i in range(0,10): power_dict[i] = i**power
-
 def sum_digit_powers(num):
     sum = 0
     for i in range(0,count_digits(num)):
@@ -26,13 +21,21 @@ def check_sum_against_permutations(number):
         if tuple_as_number(permutation) == sum:
             return True
     return False
-   
-sum = 0   
-for digit_length in range(2,7):
-    #search numbers from 2 digits to 7 digits long
-    for number in range(10**(digit_length-1),10**digit_length):
-        if number == sum_digit_powers(number):
-            sum += number
-            
-print "Sum: ", sum
+    
+if __name__ == '__main__':
+    
+    power = 5
+    power_dict = dict()
+    for i in range(0,10): power_dict[i] = i**power
+       
+    sum = 0   
+    for digit_length in range(2,7):
+        #search numbers from 2 digits to 7 digits long
+        for number in range(10**(digit_length-1),10**digit_length):
+            if number == sum_digit_powers(number):
+                sum += number
+                
+    print "Sum: ", sum
+    
+    exit(0)
     

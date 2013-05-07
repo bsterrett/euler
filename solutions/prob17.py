@@ -72,6 +72,5 @@ if __name__ == '__main__':
 	
 	print "Total letter count: ", sum
 	
-
-
+    exit(0)
 	

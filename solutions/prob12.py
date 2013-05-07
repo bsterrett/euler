@@ -1,5 +1,4 @@
 #!python
-
 import math
 from pelib import Found
 
@@ -13,17 +12,20 @@ def count_factors(num):
 				count += 2
 	#print factors
 	return count
-	
-num = 0
-i = 1
-try:
-	while(True):
-		num += i
-		i += 1
-		factors = count_factors(num)
-		#print "Number: ", num, "  factor count: ", factors
-		if factors > 500:
-			raise Found
-except Found:
-	print "First triangle number: ", num
+    
+if __name__ == '__main__':	
+    num = 0
+    i = 1
+    try:
+        while(True):
+            num += i
+            i += 1
+            factors = count_factors(num)
+            #print "Number: ", num, "  factor count: ", factors
+            if factors > 500:
+                raise Found
+    except Found:
+        print "First triangle number: ", num
+        exit(0)
+    exit(1)
 	

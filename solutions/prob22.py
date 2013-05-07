@@ -28,23 +28,22 @@ chars = {\
 'W': 23,\
 'X': 24,\
 'Y': 25,\
-'Z': 26,}
+'Z': 26}
 
 def sum_name(name):
     name_sum = 0
     for i in range(0,len(name)):
         name_sum += chars[name[i]]
     return name_sum
-
-sorted_names_str = sorted(names_str)
-sum = 0
-
-for i in range(0,len(sorted_names_str)):
-    sum += (i+1)*sum_name(sorted_names_str[i])
     
-print "Sum: ", sum
+if __name__ == '__main__':
 
+    sorted_names_str = sorted(names_str)
+    sum = 0
 
+    for i in range(0,len(sorted_names_str)):
+        sum += (i+1)*sum_name(sorted_names_str[i])
+        
+    print "Sum: ", sum
 
-
-
+    exit(0)
