@@ -141,7 +141,7 @@ def check_primality(number):
     return True
     
 def check_primality_dyn(number, dict_upper_bound = 100):
-    #returns True if number is prime, caches prime dictionary
+    #returns True if number is prime; caches prime dictionary
     def init_prime_dict():
         check_primality_dyn.init_upper_bound = dict_upper_bound
         check_primality_dyn.prime_dict = dict()
@@ -167,17 +167,7 @@ def check_primality_dyn(number, dict_upper_bound = 100):
     except KeyError:
         #checks primality if not found in dictionary
         print "Warning: prime WAS NOT found in prime_dict"
-        if number<=1 or number%2==0:  
-            return False  
-        check=3  
-        maxneeded=number  
-        while check<maxneeded+1:  
-            maxneeded=number/check  
-            if number%check==0:  
-                return False  
-            check+=2  
-        return True
-    #You should not reach this!    
+        return check_primality(number)
     return False
     
 def remove_duplicates(list):

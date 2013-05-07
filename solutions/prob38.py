@@ -21,12 +21,11 @@ def check_pandigital(list):
         if list.count(i) != 1: return False
     return True
     
-best_starting_number = -1
-best_length = -1
-best_pandigital = -1
-
-number = 987654321
-try:
+if __name__ == '__main__':        
+    best_starting_number = -1
+    best_pandigital = -1
+    number = 9876
+    
     while(number > 0):
         number -= 1
         list = number_as_list(number)
@@ -34,8 +33,10 @@ try:
         while(len(list) < 9):
             list += number_as_list(number*factor)
             factor += 1 
-        if check_pandigital(list) and factor > 3:
-            print list_as_number(list)
-
-except Found:
-    pass
+        if check_pandigital(list) and factor >= 3:
+            pand_number = list_as_number(list)
+            if pand_number > best_pandigital:
+                best_pandigital = pand_number
+                best_starting_number = number
+    print "Largest pandigital: ", best_pandigital
+    exit(0)

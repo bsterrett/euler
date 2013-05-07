@@ -1,21 +1,7 @@
 #!python
 from itertools import combinations
 from fractions import Fraction
-
-def get_primes(upper_bound):
-    prime_dict = dict()
-    prime_dict[0] = False
-    prime_dict[1] = False
-    for i in range(2,upper_bound+1): prime_dict[i] = True
-    for i in range(2,upper_bound+1):
-        if prime_dict[i] == True:
-            factors = range(i,upper_bound+1,i)
-            for f in factors[1:]:
-                prime_dict[f] = False
-    primes = []
-    for i in range(2,upper_bound+1):
-        if prime_dict[i]: primes.append(i)
-    return primes
+from pelib import get_primes
 
 def get_resilience(denom):
     def get_prime_factors(number):
@@ -37,6 +23,7 @@ def get_resilience(denom):
             switch *= -1            
         return sum
     prime_factors = get_prime_factors(denom)
+    print prime_factors
     multiples = count_multiples(denom, prime_factors)
     return Fraction(denom-multiples,denom-1)
 	
