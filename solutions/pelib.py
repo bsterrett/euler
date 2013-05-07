@@ -5,6 +5,16 @@ import sys
 import itertools
 
 class Found(Exception): pass
+
+def generate_champernowne(length):
+    #returns champernowne's constant as a list of digits
+    #with total elements equal to length
+    champ = []
+    num = 1
+    while(len(champ) < length):
+        champ += number_as_list(num)
+        num += 1
+    return champ
     
 def sum_of_proper_divisors(num):
     #returns the sum of the proper divisors of num
@@ -17,8 +27,16 @@ def sum_of_proper_divisors(num):
     return sum
 
 def count_digits(num):
-    # counts the number of digits in num
+    #counts the number of digits in num
     return int(math.log(num,10)) + 1
+    
+def check_1_9_pandigital(list):
+    #returns True if list is 1-9 pandigital
+    if len(list) != 9:
+        return False
+    for i in range(1,10):
+        if list.count(i) != 1: return False
+    return True
     
 def get_digit_permutations(number):
     #returns list of numbers which have digits identical to number

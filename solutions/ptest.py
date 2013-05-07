@@ -49,5 +49,5 @@ def get_resilience(denom):
     multiples = count_multiples(denom, prime_factors)
     return Fraction(denom-multiples,denom-1)
     
-for i in range(2,50): print i, "-", get_resilience_backup(i), "  ", get_resilience(i)
+#for i in range(2,50): print i, "-", get_resilience_backup(i), "  ", get_resilience(i)
 #print get_primes(100)
