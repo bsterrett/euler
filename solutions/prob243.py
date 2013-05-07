@@ -8,13 +8,13 @@ def get_primes(upper_bound):
     prime_dict[1] = False
     for i in range(2,upper_bound+1): prime_dict[i] = True
     for i in range(2,upper_bound+1):
-        factors = range(i,upper_bound+1,i)
-        for f in factors[1:]:
-            prime_dict[f] = False
+        if prime_dict[i] == True:
+            factors = range(i,upper_bound+1,i)
+            for f in factors[1:]:
+                prime_dict[f] = False
     primes = []
-    for i in range(2,upper_bound):
+    for i in range(2,upper_bound+1):
         if prime_dict[i]: primes.append(i)
-    prime_dict = dict()
     return primes
 
 def get_resilience(denom):
