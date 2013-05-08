@@ -1,0 +1,160 @@
+#!python
+import re
+import time
+
+class CachedPrimeWorker:
+    def __init__(self):
+        self.prime_index_file = 'prime_index.txt'
+        self.prime_library_file = 'prime_library.txt'
+        self.step_size = 10000
+
+    def write_cache_to_file(self):
+        if not hasattr(self, "primes"):
+            print "Error: primes have not been generated yet!"
+            return
+            
+        row_length = 20
+        try:
+            index = open(self.prime_index_file, "w")
+            index.write("Smallest prime: %s\nLargest prime: %s\nPrimes stored: %s\n" % \
+                (self.primes[0], self.primes[-1], len(self.primes)))
+            index.close()
+        except IOError:
+            print "There was a problem writing to the primes index file"
+            
+        try:
+            library = open(self.prime_library_file, "w")
+            for i in range(0,len(self.primes),row_length):
+                row = ""
+                for j in range(i,min(i+row_length,len(self.primes))):
+                    row += str(self.primes[j]) + " "
+                library.write(row + "\n")
+            library.close()
+        except IOError:
+            print "There was a problem writing to the primes library file"
+            
+    def import_primes_from_file(self, upper_bound = -1):
+        try:
+            library = open(self.prime_library_file, "r")
+            lines = library.readlines()
+            library.close()
+            self.primes = []
+        except IOError:
+            print "There was a problem reading from the primes library file"
+            return
+    
+        if upper_bound == -1:        
+            for line in lines:
+                self.primes += map(int, line.strip().split(' '))
+            self.cached_count = len(self.primes)
+            self.cached_bound = self.primes[-1]
+        else:
+            for line in lines:
+                self.primes += map(int, line.strip().split(' '))
+                if self.primes[-1] >= upper_bound:
+                    self.cached_count = len(self.primes)
+                    self.cached_bound = self.primes[-1]
+                    return            
+            if self.primes[-1] < upper_bound:
+                print "Warning: primes library did not reach upper bound"
+                self.cached_count = len(self.primes)
+                self.cached_bound = self.primes[-1]
+
+    def check_cached_count(self):
+        if not hasattr(self, "cached_count"):
+            print "getting cached count"
+            index = open(self.prime_index_file, "r")
+            lines = index.readlines()
+            index.close()
+            for line in lines:
+                (count,found) = re.subn('Primes stored: (\d+)\\n','\\1',line)
+                if found > 0:
+                    self.cached_count = int(count)
+        return self.cached_count
+    
+    def check_cached_bound(self):
+        if not hasattr(self, "cached_bound"):
+            index = open(self.prime_index_file, "r")
+            lines = index.readlines()
+            index.close()
+            for line in lines:
+                (bound,found) = re.subn('Largest prime: (\d+)\\n','\\1',line)
+                if found > 0:
+                    self.cached_bound = int(bound)
+        return self.cached_bound
+
+    def generate_primes_by_bound(self,upper_bound):
+        start_time = time.time()
+        
+        self.init_from_file = False
+        primes = []
+        for i in range(2,upper_bound+1,self.step_size):
+            step_bound = min(i+self.step_size,upper_bound+1)
+            prime_dict = dict()
+            new_primes = []
+            for j in range(i,step_bound):  prime_dict[j] = True
+            for j in primes:
+                for k in range(j,step_bound,j): prime_dict[k] = False
+            for j in range(i,step_bound):
+                if prime_dict[j] == True:
+                    new_primes.append(j)
+                    k = range(j,step_bound,j)
+                    for l in k[1:]:
+                        prime_dict[l] = False
+            primes += new_primes
+        self.cached_count = len(primes)
+        self.cached_bound = primes[-1]
+        print "elapsed time:", time.time() - start_time
+        self.primes = primes
+    
+    def generate_primes_by_count(self,count):
+        start_time = time.time()
+        
+        self.init_from_file = False
+        primes = []
+        i = 2
+        while(len(primes) < count):
+            step_bound = min(i+self.step_size,upper_bound+1)
+            prime_dict = dict()
+            new_primes = []
+            for j in range(i,step_bound):  prime_dict[j] = True
+            for j in primes:
+                for k in range(j,step_bound,j): prime_dict[k] = False
+            for j in range(i,step_bound):
+                if prime_dict[j] == True:
+                    new_primes.append(j)
+                    k = range(j,step_bound,j)
+                    for l in k[1:]:
+                        prime_dict[l] = False
+            primes += new_primes
+            i += self.step_size
+        self.cached_count = len(primes)
+        self.cached_bound = primes[-1]        
+        print "elapsed time:", time.time() - start_time
+        self.primes = primes
+        
+    def get_primes(self):
+        return self.primes
+        
+    def check_primality(self,number):
+        try:
+            if number <= self.cached_bound:
+                self.primes.index(number)
+                return True
+            print "Error: number exceeds cache bound"
+            return False
+        except ValueError:
+            #number was not in list of primes
+            return False
+        except AttributeError:
+            #something was not initialized yet
+            print "Error: need to initialize primes first"
+            return False
+
+    
+    
+if __name__ == '__main__':
+    CPW = CachedPrimeWorker()
+    CPW.import_primes_from_file(1005)
+    for i in range(0,50): print CPW.check_primality(i), i
+
