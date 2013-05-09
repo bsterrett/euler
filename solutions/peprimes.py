@@ -7,10 +7,16 @@ class CachedPrimeWorker:
         self.prime_index_file = 'prime_index.txt'
         self.prime_library_file = 'prime_library.txt'
         self.step_size = 10000
+        
+    def set_step_size(self,size):
+        if size >= 10:  self.step_size = size
 
     def write_cache_to_file(self):
         if not hasattr(self, "primes"):
             print "Error: primes have not been generated yet!"
+            return
+        elif len(self.primes) == 0:
+            print "Error: no primes to write to library file!"
             return
             
         row_length = 20
@@ -43,6 +49,7 @@ class CachedPrimeWorker:
             print "There was a problem reading from the primes library file"
             return
     
+        self.init_from_file = True
         if upper_bound == -1:        
             for line in lines:
                 self.primes += map(int, line.strip().split(' '))
@@ -104,8 +111,8 @@ class CachedPrimeWorker:
             primes += new_primes
         self.cached_count = len(primes)
         self.cached_bound = primes[-1]
-        print "elapsed time:", time.time() - start_time
         self.primes = primes
+        return time.time() - start_time
     
     def generate_primes_by_count(self,count):
         start_time = time.time()
@@ -155,6 +162,14 @@ class CachedPrimeWorker:
     
 if __name__ == '__main__':
     CPW = CachedPrimeWorker()
-    CPW.import_primes_from_file(1005)
-    for i in range(0,50): print CPW.check_primality(i), i
+    results = []
+    for step in [2147483647/32,2147483647/10]:
+        for bound in [41000000]:
+            CPW.set_step_size(step)
+            ex_time = CPW.generate_primes_by_bound(bound)
+            CPW.write_cache_to_file()
+            print "step:", step, "  bound:", bound, "  time:", ex_time
+            results.append([step,bound,ex_time])
+        print results
+    print results
 

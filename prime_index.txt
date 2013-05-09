@@ -1,0 +1,3 @@
+Smallest prime: 2
+Largest prime: 99999989
+Primes stored: 5761455
