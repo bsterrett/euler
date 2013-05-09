@@ -1,12 +1,13 @@
 #!python
 import re
 import time
+import sys
 
 class CachedPrimeWorker:
     def __init__(self):
         self.prime_index_file = 'prime_index.txt'
         self.prime_library_file = 'prime_library.txt'
-        self.step_size = 10000
+        self.step_size = sys.maxsize/10
         
     def set_step_size(self,size):
         if size >= 10:  self.step_size = size
@@ -146,6 +147,7 @@ class CachedPrimeWorker:
     def check_primality(self,number):
         try:
             if number <= self.cached_bound:
+                #this number is a prime
                 self.primes.index(number)
                 return True
             print "Error: number exceeds cache bound"
@@ -162,14 +164,7 @@ class CachedPrimeWorker:
     
 if __name__ == '__main__':
     CPW = CachedPrimeWorker()
-    results = []
-    for step in [2147483647/32,2147483647/10]:
-        for bound in [41000000]:
-            CPW.set_step_size(step)
-            ex_time = CPW.generate_primes_by_bound(bound)
-            CPW.write_cache_to_file()
-            print "step:", step, "  bound:", bound, "  time:", ex_time
-            results.append([step,bound,ex_time])
-        print results
-    print results
+    CPW.import_primes_from_file()
+    print len(CPW.get_primes()), CPW.get_primes()[-1]
+
 
