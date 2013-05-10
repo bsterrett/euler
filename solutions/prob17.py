@@ -66,11 +66,10 @@ def count_letters(string):
 	return len(sub('[\-| ]', '', string))
 		
 if __name__ == '__main__':
-	sum = 0
-	for i in range(1,1001):
-		sum += count_letters(number_as_english_string(i))
-	
-	print "Total letter count: ", sum
-	
+    sum = 0
+    for i in range(1,1001):
+        sum += count_letters(number_as_english_string(i))
+    
+    print "Total letter count: ", sum
+    
     exit(0)
-	

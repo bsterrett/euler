@@ -56,7 +56,7 @@ class TruncatablePrimeSearcher:
 		return self.primes_dict[number]
 		
 if __name__ == '__main__':
-	TPS = TruncatablePrimeSearcher()
-	sum = TPS.IDS_for_target_primes(11)
-	print "Sum of truncatable primes: ", sum
+    TPS = TruncatablePrimeSearcher()
+    sum = TPS.IDS_for_target_primes(11)
+    print "Sum of truncatable primes: ", sum
     exit(0)

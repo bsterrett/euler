@@ -1,8 +1,21 @@
 import math
 import time
 import copy
-import sys
 import itertools
+import sys
+try:
+    cached_primes = False
+    import re
+    import os
+    (primes_dir,success) = re.subn('(.*eulerproject)(/solutions/pelib.py[c]?)','\\1/primes',os.path.realpath(__file__))
+    if success > 0:
+        cached_primes = True
+        sys.path.insert(0,primes_dir)
+        import peprimes
+    else:
+        print "Problem forming primes directory name"
+except:
+    print "Warning: couldn't add cached primes directory"
 
 class Found(Exception): pass
 
@@ -43,7 +56,8 @@ def get_digit_permutations(number):
     list = number_as_list(number)
     numbers_list = []
     for permutation in itertools.permutations(list):
-        numbers_list.append(tuple_as_number(permutation))
+        if not permutation[0] == 0:
+            numbers_list.append(tuple_as_number(permutation))
     return remove_duplicates(numbers_list)
     
 def get_digit(num, pos):
@@ -129,6 +143,35 @@ def tuple_as_number(tuple):
         number += int(tuple[i]) * 10**power
         power += 1
     return number
+    
+def get_primes_prec(bound = -1):
+    #returns all the primes below upper_bound
+    #tries to use cached library of primes instead of calculating
+    if cached_primes:
+        if not hasattr(get_primes_prec, "CPW"):
+            get_primes_prec.CPW = peprimes.CachedPrimeWorker()
+            get_primes_prec.init_bound = bound
+            if get_primes_prec.init_bound < 1:
+                get_primes_prec.CPW.import_primes_from_file()
+            else:
+                get_primes_prec.CPW.import_primes_from_file(bound)
+        elif bound > get_primes_prec.init_bound:
+            get_primes_prec.init_bound = bound
+            get_primes_prec.CPW.import_primes_from_file(bound)
+        return get_primes_prec.CPW.get_primes()
+    else:
+        print "Warning: failed to get cached primes"
+        return []
+        
+def check_primality_prec(number):
+    if cached_primes:
+        if not hasattr(check_primality_prec, "CPW"):
+            check_primality_prec.CPW = peprimes.CachedPrimeWorker()
+            check_primality_prec.CPW.import_primes_from_file()
+        return check_primality_prec.CPW.check_primality(number)
+    else:
+        print "Warning: failed to get cached primes"
+        return False
     
 def get_primes(upper_bound):
     #returns all the primes below upper_bound

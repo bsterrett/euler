@@ -1,15 +1,19 @@
 #!python
 from itertools import combinations
 from fractions import Fraction
-from pelib import get_primes
+from pelib import get_primes_prec
 
 def get_resilience(denom):
     def get_prime_factors(number):
         prime_factors = []
-        primes = get_primes(number+1)
+        primes = get_primes_prec()
         for prime in primes:
+            if prime > number:
+                print prime, number, prime_factors
+                return prime_factors
             if number%prime == 0: prime_factors.append(prime)
-        return prime_factors
+        print "shouldnt reach this!", prime_factors, denom, len(primes)
+        
     def count_multiples(upper_bound, factors):
         sum = 0
         switch = 1
@@ -34,8 +38,7 @@ if __name__ == '__main__':
 	
 	denom = 2
 	prime_counter = 1
-	prime_upper_bound = 100
-	primes = get_primes(prime_upper_bound)
+	primes = get_primes_prec()
 	while(best_resilience >= Fraction(15499,94744)):
 		new_resilience = get_resilience(denom)
 		if new_resilience < best_resilience:
@@ -43,6 +46,5 @@ if __name__ == '__main__':
 			best_resilience = new_resilience
 			best_denominator = denom
 		denom *= primes[prime_counter]
-		primes = get_primes(denom)
 		prime_counter += 1
 	print "Best denominator:", best_denominator
