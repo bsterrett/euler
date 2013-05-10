@@ -14,7 +14,7 @@ def lists_overlap(list1, list2):
 
 if __name__ == '__main__':
     primes = get_primes_prec(10000)
-    lower_bound = 168 #first prime > 1000
+    lower_bound = 168 #index of first prime > 1000
     for i in range(lower_bound,len(primes)):
         for j in range(i+1,len(primes)):
             p1 = primes[i]

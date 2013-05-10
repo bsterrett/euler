@@ -9,23 +9,18 @@ def find_prime_sum(number,primes,best_count=0):
         while(True):
             sum = 0
             count = 0
-            temp_primes = []
             for prime in primes[starting_index:]:
                 if prime == number:
                     raise NotFound
-                elif sum + prime == number:
-                    sum += prime
-                    temp_primes.append(prime)
-                    count += 1
+                elif sum == number:
                     raise Found
-                elif sum + prime > number:
+                elif sum > number:
                     starting_index += 1
                     if prime_index-starting_index < best_count:
                         raise NotFound
                     else: break
                 else:
                     sum += prime
-                    temp_primes.append(prime)
                     count += 1
     except Found:
         return count
@@ -33,7 +28,7 @@ def find_prime_sum(number,primes,best_count=0):
         return 1
 
 if __name__ == '__main__':
-    upper_bound = 50000
+    upper_bound = 1000000
     primes = get_primes_prec(upper_bound)
     best_prime = -1
     best_count = -1

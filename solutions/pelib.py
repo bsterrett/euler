@@ -18,6 +18,7 @@ except:
     print "Warning: couldn't add cached primes directory"
 
 class Found(Exception): pass
+class NotFound(Exception): pass
 
 def generate_champernowne(length):
     #returns champernowne's constant as a list of digits
