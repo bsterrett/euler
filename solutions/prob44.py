@@ -11,8 +11,8 @@ def generate_pents(upper_bound):
         else:
             pents.append(last + pent_iter)
             pent_iter += 3
- 
-if __name__ == '__main__':
+            
+def main():
     bound = 10000000
     pairs = []
     while(len(pairs) < 1):
@@ -21,7 +21,17 @@ if __name__ == '__main__':
         for i in range(0,len(pents)):
             p1 = pents[i]
             for p2 in pents[i+1:]:
-                if pents.count(p1+p2) > 0 and pents.count(abs(p1-p2)) > 0:
-                    pairs.append((p1,p2,abs(p1-p2)))
+                try:
+                    dif = p2-p1 #p2 should always be bigger
+                    if not (p1+p2) in pents and not dif in pents:
+                        pairs.append((p1,p2,dif))
+                except ValueError:
+                    pass
+                    
         bound *= 10
     print "Difference: ", pairs[0][2]
+    
+if __name__ == '__main__':
+    import profile;profile.run('main()')
+    #main()
+    exit(0)
