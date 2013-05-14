@@ -1,6 +1,5 @@
 #!python
 from pelib import number_as_list, get_digit_permutations
-import time
     
 def get_square_of_digits(number):
     #returns the sum of the squared digits of a number
@@ -9,10 +8,7 @@ def get_square_of_digits(number):
     for i in list:  sum += i**2
     return sum
     
-def number_chain(number):
-    if not hasattr(number_chain, "count89"):
-        #initialize static variable to count number of occurrences of 89
-        number_chain.count89 = 0
+def number_chain(number,chain_dict):
     
     def update_chain_dict(list, seq):
         for num in list:
@@ -43,22 +39,21 @@ def number_chain(number):
             if chain_dict[new_number] == 89:
                 number_chain.count89 += 1                
             return
-        list.append(new_number)
-
-if __name__ == '__main__':
-    start_time = time.time()
+        list += [new_number]
+        
+def main():
 
     upper_bound = 10000000
     chain_dict = dict()
     for i in range(1,upper_bound/10): chain_dict[i] = -1
-
-    allocation_time = time.time() - start_time
-            
+    
+    number_chain.count89 = 0
     for i in range(1,upper_bound):
-        number_chain(i)
+        number_chain(i,chain_dict)
        
     print "Count: ", number_chain.count89
 
-    print "Allocation time:", allocation_time, "  Run time:", time.time() - start_time
-
+if __name__ == '__main__':
+    #import profile;profile.run('main()')
+    main()
     exit(0)

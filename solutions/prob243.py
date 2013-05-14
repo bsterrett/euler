@@ -9,7 +9,6 @@ def get_resilience(denom):
         primes = get_primes_prec()
         for prime in primes:
             if prime > number:
-                print prime, number, prime_factors
                 return prime_factors
             if number%prime == 0: prime_factors.append(prime)
         print "shouldnt reach this!", prime_factors, denom, len(primes)
@@ -27,24 +26,27 @@ def get_resilience(denom):
             switch *= -1            
         return sum
     prime_factors = get_prime_factors(denom)
-    print prime_factors
     multiples = count_multiples(denom, prime_factors)
     return Fraction(denom-multiples,denom-1)
+    
+def main():
+    last_resilience = best_resilience = Fraction(1,1)
+    best_denominator = -1
+    denom = 2
+    prime_counter = 1
+    primes = get_primes_prec()
+    while(best_resilience >= Fraction(15499,94744)):
+        new_resilience = get_resilience(denom)
+        if new_resilience < best_resilience:
+            #print "Denom:", denom, "  Resilience:", float(new_resilience)
+            best_resilience = new_resilience
+            best_denominator = denom
+        denom *= primes[prime_counter]
+        prime_counter += 1
+    print "Best denominator:", best_denominator
+    return best_denominator
 	
 if __name__ == '__main__':
-	last_resilience = best_resilience = Fraction(1,1)
-	best_denominator = -1
-	
-	
-	denom = 2
-	prime_counter = 1
-	primes = get_primes_prec()
-	while(best_resilience >= Fraction(15499,94744)):
-		new_resilience = get_resilience(denom)
-		if new_resilience < best_resilience:
-			print "Denom:", denom, "  Resilience:", float(new_resilience)
-			best_resilience = new_resilience
-			best_denominator = denom
-		denom *= primes[prime_counter]
-		prime_counter += 1
-	print "Best denominator:", best_denominator
+    #import profile;profile.run('main()')
+    main()
+    exit(0)

@@ -121,9 +121,9 @@ def number_as_list(number):
         return [0]
     number_as_list = list()
     while(number > 0):
-        number_as_list.append(number%10)
+        number_as_list = [number%10] + number_as_list
         number /= 10
-    number_as_list.reverse()
+    #number_as_list.reverse()
     return number_as_list
     
 def list_as_number(list):
