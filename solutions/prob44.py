@@ -9,11 +9,12 @@ def generate_pents(upper_bound):
         last = pents[-1]
         if last > upper_bound: return pents
         else:
-            pents.append(last + pent_iter)
+            pents += [last + pent_iter]
             pent_iter += 3
             
 def main():
     bound = 10000000
+    best_dif = -1
     pairs = []
     while(len(pairs) < 1):
         pents = generate_pents(bound)
@@ -21,17 +22,15 @@ def main():
         for i in range(0,len(pents)):
             p1 = pents[i]
             for p2 in pents[i+1:]:
-                try:
-                    dif = p2-p1 #p2 should always be bigger
-                    if not (p1+p2) in pents and not dif in pents:
-                        pairs.append((p1,p2,dif))
-                except ValueError:
-                    pass
+                dif = p2-p1 #p2 should always be bigger
+                if dif > best_dif and (p1+p2) in pents and dif in pents:
+                    best_dif = dif
+                    pairs += [(p1,p2,dif)]
                     
         bound *= 10
     print "Difference: ", pairs[0][2]
     
 if __name__ == '__main__':
-    import profile;profile.run('main()')
-    #main()
+    #import profile;profile.run('main()')
+    main()
     exit(0)
