@@ -21,7 +21,7 @@ def main():
     print "Sum: ", sum
     
 if __name__ == '__main__':
-    import profile;profile.run('main()')
-    #main()
+    #import profile;profile.run('main()')
+    main()
     exit(0)
 
