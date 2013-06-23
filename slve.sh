@@ -1,5 +1,16 @@
 #!/bin/bash
 
+if [ -x python ]; then
+	python=python
+elif [ -x /bin/python ]; then 
+	python='/bin/python'
+elif [ -x /usr/bin/python ]; then
+	python='/usr/bin/python'
+else
+	echo 'Error: could not find a python executable'
+	exit 1
+fi
+
 root_dir=`pwd`
 results_dir="${root_dir}/results"
 results_file="${results_dir}/results.raw"
@@ -7,41 +18,41 @@ slow_solutions_file="${results_dir}/slow_solutions.raw"
 solutions_dir="${root_dir}/solutions"
 
 if [[ $# -ne 1 ]]; then
-    echo "Usage: slve.sh <problem number>"
-    exit 1
+	echo "Usage: slve.sh <problem number>"
+	exit 1
 fi
 
 if [ ! -d $results_dir ]; then
-    mkdir results
+	mkdir results
 fi
 
 if [ ! -d $solutions_dir ]; then
 	echo "Error: solutions directory not found."
-    exit 1
+	exit 1
 else
-    cd solutions
+	cd solutions
 fi
 
 
 if [[ "all" -ne "$1" && "$1" -gt 0 ]] ; then
-    #execute a single solution
-    number=$1
-    solution=prob${number}.py
-    if [ -x $solution ]; then
-        printf "Working on solution %d\n" $number
-        start_time=`date +%s`
-        output=$(/bin/python $solution)
+	#execute a single solution
+	number=$1
+	solution=prob${number}.py
+	if [ -x $solution ]; then
+		printf "Working on solution %d\n" $number
+		start_time=`date +%s`
+		output=$($python $solution)
 		exit_status=$?
 		echo $output
-        end_time=`date +%s` ; time_elapsed=`expr $end_time - $start_time`
-        printf "Execution time was %d seconds\n\n" $time_elapsed
-        exit 0
-    else
-        printf "Error: solution %d was not found.\n" $number
-        exit 1
-    fi
+		end_time=`date +%s` ; time_elapsed=`expr $end_time - $start_time`
+		printf "Execution time was %d seconds\n\n" $time_elapsed
+		exit 0
+	else
+		printf "Error: solution %d was not found.\n" $number
+		exit 1
+	fi
 elif [[ "all" -eq "$1" ]] ; then
-    #execute all solutions
+	#execute all solutions
     echo "Executing all solutions!"
     for number in {1..500}
     do
@@ -49,7 +60,7 @@ elif [[ "all" -eq "$1" ]] ; then
         if [ -x $solution ]; then
             printf "Working on solution %d   ---   " $number
             start_time=`date +%s`
-			output=$(/bin/python $solution)
+			output=$($python $solution)
 			exit_status=$?
             echo $output
 			output_target_value=`echo "$output" | sed 's|.*:\s*\(-*\d*\b\)|\1|1'`			

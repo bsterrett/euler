@@ -60,6 +60,14 @@ def get_digit_permutations(number):
         if not permutation[0] == 0:
             numbers_list.append(tuple_as_number(permutation))
     return remove_duplicates(numbers_list)
+
+def get_digit_permutations_as_list(number):
+    new_list = number_as_list(number)
+    numbers_list = []
+    for permutation in itertools.permutations(new_list):
+        if not permutation[0] == 0:
+            numbers_list.append(list(permutation))
+    return numbers_list
     
 def get_digit(num, pos):
     # returns the digit from a certain place in num

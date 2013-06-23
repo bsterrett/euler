@@ -1,34 +1,27 @@
-#python
+#!/usr/bin/python
+from pelib import number_as_list, list_as_number
+from pelib import get_digit_permutations_as_list
 from pelib import Found
 
+def main():
+    primes_list = [2,3,5,7,11,13,17]
+    permutations_list = get_digit_permutations_as_list(1234567890)
+    sum = 0
+    for permutation in permutations_list:
+        number = list_as_number(permutation)
+        try:
+            for i in range(1,len(permutation)-2):
+                if list_as_number(permutation[i:i+3])%primes_list[i-1] != 0:
+                
+                    raise Found
+            print "found one!", number
+            sum += number
+        except Found:
+            pass
+    print "Sum: ", sum
+    
 if __name__ == '__main__':
-    tri = [1]
-    tri_inc = 2
-    pent = [1]
-    pent_inc = 4
-    hex = [1]
-    hex_inc = 5
+    import profile;profile.run('main()')
+    #main()
+    exit(0)
 
-    try:
-        while(True):
-            if tri[-1] == pent[-1] and pent[-1] == hex[-1]:
-                #they are all the same!
-                if tri[-1] > 40755: raise Found
-        
-            if tri[-1] < pent[-1] and tri[-1] < hex[-1]:
-                #triangle is smallest, update it
-                tri.append(tri[-1] + tri_inc)
-                tri_inc += 1
-            elif pent[-1] < hex[-1]:
-                #pentagonal is smallest, update it
-                pent.append(pent[-1] + pent_inc)
-                pent_inc += 3
-            else:
-                #hexagonal is smallest, update it
-                hex.append(hex[-1] + hex_inc)
-                hex_inc += 4
-        
-        
-    except Found:
-        print "Next largest triangle/pentagonal/hexagonal number: ", tri[-1]
-        exit(0)
