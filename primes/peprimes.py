@@ -176,6 +176,7 @@ class CachedPrimeWorker:
     
 if __name__ == '__main__':
     CPW = CachedPrimeWorker()
-    CPW.import_primes_from_file()
+    #CPW.import_primes_from_file()
+    CPW.generate_primes_by_bound(100000000)
 
 
