@@ -34,7 +34,7 @@ else
 fi
 
 
-if [[ "all" -ne "$1" && "$1" -gt 0 ]] ; then
+if [[ "all" -ne "$1" && 0 -lt "$1" ]] ; then
 	#execute a single solution
 	number=$1
 	solution=prob${number}.py
@@ -66,7 +66,7 @@ elif [[ "all" -eq "$1" ]] ; then
 			output_target_value=`echo "$output" | sed 's|.*:\s*\(-*\d*\b\)|\1|1'`
 			end_time=`date +%s` ; time_elapsed=`expr $end_time - $start_time`
 			printf "%s,%d,%s\n" $number ${output_target_value} $time_elapsed >> $results_file
-			if [[ $time_elapsed -gt 20 ]] ; then 
+			if [[ $time_elapsed -gt 20 ]] ; then
 				printf "%s,%d,%s\n" $number ${output_target_value} $time_elapsed >> $slow_solutions_file
 			fi
 			printf "Execution time was %d seconds\n\n" $time_elapsed

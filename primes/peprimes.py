@@ -4,7 +4,7 @@ import time
 import sys
 try:
     import os
-    (primes_dir,success) = re.subn('(.*eulerproject/primes)(/peprimes.py[c]?)','\\1',os.path.realpath(__file__))
+    (primes_dir,success) = re.subn('(.*projecteuler/primes)(/peprimes.py[c]?)','\\1',os.path.realpath(__file__))
     if success > 0:
         cached_primes = True
         sys.path.insert(0,primes_dir)
@@ -19,7 +19,7 @@ class CachedPrimeWorker:
         self.prime_index_file = primes_dir + '/prime_index.txt'
         self.prime_library_file = primes_dir + '/prime_library.txt'
         self.step_size = sys.maxsize/10
-        
+
     def set_step_size(self,size):
         if size >= 10:  self.step_size = size
 
@@ -30,7 +30,7 @@ class CachedPrimeWorker:
         elif len(self.primes) == 0:
             print "Error: no primes to write to library file!"
             return
-            
+
         row_length = 20
         try:
             index = open(self.prime_index_file, "w")
@@ -39,7 +39,7 @@ class CachedPrimeWorker:
             index.close()
         except IOError:
             print "There was a problem writing to the primes index file"
-            
+
         try:
             library = open(self.prime_library_file, "w")
             for i in range(0,len(self.primes),row_length):
@@ -50,7 +50,7 @@ class CachedPrimeWorker:
             library.close()
         except IOError:
             print "There was a problem writing to the primes library file"
-            
+
     def import_primes_from_file(self, upper_bound = -1):
         try:
             library = open(self.prime_library_file, "r")
@@ -59,7 +59,7 @@ class CachedPrimeWorker:
             print "There was a problem reading from the primes library file"
             print self.prime_library_file
             return
-    
+
         self.init_from_file = True
         if upper_bound == -1:
             for line in library.readlines():
@@ -73,7 +73,7 @@ class CachedPrimeWorker:
                     self.cached_count = len(self.primes)
                     self.cached_bound = self.primes[-1]
                     library.close()
-                    return            
+                    return
             if self.primes[-1] < upper_bound:
                 print "Warning: primes library did not reach upper bound"
                 self.cached_count = len(self.primes)
@@ -91,7 +91,7 @@ class CachedPrimeWorker:
                 if found > 0:
                     self.cached_count = int(count)
         return self.cached_count
-    
+
     def check_cached_bound(self):
         if not hasattr(self, "cached_bound"):
             index = open(self.prime_index_file, "r")
@@ -105,7 +105,7 @@ class CachedPrimeWorker:
 
     def generate_primes_by_bound(self,upper_bound):
         start_time = time.time()
-        
+
         self.init_from_file = False
         primes = []
         for i in range(2,upper_bound+1,self.step_size):
@@ -126,10 +126,10 @@ class CachedPrimeWorker:
         self.cached_bound = primes[-1]
         self.primes = primes
         return time.time() - start_time
-    
+
     def generate_primes_by_count(self,count):
         start_time = time.time()
-        
+
         self.init_from_file = False
         primes = []
         i = 2
@@ -149,13 +149,13 @@ class CachedPrimeWorker:
             primes += new_primes
             i += self.step_size
         self.cached_count = len(primes)
-        self.cached_bound = primes[-1]        
+        self.cached_bound = primes[-1]
         print "elapsed time:", time.time() - start_time
         self.primes = primes
-        
+
     def get_primes(self):
         return self.primes
-        
+
     def check_primality(self,number):
         try:
             if number <= self.cached_bound:
@@ -172,11 +172,9 @@ class CachedPrimeWorker:
             print "Error: need to initialize primes first"
             return False
 
-    
-    
+
+
 if __name__ == '__main__':
     CPW = CachedPrimeWorker()
     #CPW.import_primes_from_file()
     CPW.generate_primes_by_bound(100000000)
-
-
